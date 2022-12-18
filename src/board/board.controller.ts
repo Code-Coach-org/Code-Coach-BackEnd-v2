@@ -1,6 +1,9 @@
-import { Body, Controller, Delete, Get, Param, ParseFloatPipe, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, UseGuards, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { AuthGuard } from 'src/auth/auth.guard';
+import { GetUser } from 'src/auth/getUser.decorator';
 import { multerDiskDestinationOutOptions } from 'src/config/multer.config';
+import { User } from 'src/user/entities/user.entity';
 import { BoardService } from './board.service';
 import { CreateArticleDto } from './dto/request/create-article.dto';
 import { CreateBoardDto } from './dto/request/create-board.dto';
@@ -10,6 +13,12 @@ import { ViewArticleByIdDto } from './dto/request/view-article-by-id.dto';
 @Controller('board')
 export class BoardController {
     constructor(private readonly boardService: BoardService) { }
+
+    @Get('jwttest')
+    @UseGuards(AuthGuard)
+    async jwtTest(@GetUser() user) {
+        console.log(user);
+    }
 
     @Post('create')
     async createBoard(@Body() createBoardDto: CreateBoardDto): Promise<Object> {

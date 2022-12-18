@@ -31,7 +31,8 @@ export class Article {
 
     @Column({
         type: 'int',
-        comment: '조회수'
+        comment: '조회수',
+        default: 0
     })
     view: number;
 

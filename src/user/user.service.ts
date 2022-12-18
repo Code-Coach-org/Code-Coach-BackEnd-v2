@@ -80,7 +80,11 @@ export class UsersService {
       const hashedPassword = find.password
       const isPassword = await bcrypt.compare(pwd, hashedPassword);
       if(isPassword) {    
-        const token = jwt.sign(find.userName, 'secretToken')
+        const token = jwt.sign({
+          id: find.id,
+          userName: find.userName,
+          email: find.email,
+        }, 'secretToken')
         find.token = token
         await this.usersRepository.save(find);
         return token;
