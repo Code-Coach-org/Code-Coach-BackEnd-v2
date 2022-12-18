@@ -16,4 +16,11 @@ export class Board {
     })
     name!: string;
 
+    @ManyToOne(type => User, user => user.id)
+    @JoinColumn({ name: 'userId' })
+    user: User;
+
+    @Column({ nullable: false, unsigned: true })
+    userId: number;
+
 }

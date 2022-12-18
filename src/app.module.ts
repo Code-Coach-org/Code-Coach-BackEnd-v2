@@ -7,6 +7,7 @@ import { UsersModule } from './user/user.module';
 import { GroupModule } from './group/group.module';
 import { ConfigModule } from '@nestjs/config';
 import { BannerModule } from './banner/banner.module';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { BannerModule } from './banner/banner.module';
     BoardModule,
     UsersModule,
     GroupModule,
-    BannerModule],
+    BannerModule,
+    CommentModule],
   controllers: [AppController],
   providers: [AppService],
 })
