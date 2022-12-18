@@ -19,7 +19,7 @@ import { CommentModule } from './comment/comment.module';
       username: process.env.DB_USER,
       password: process.env.DB_PW,
       database: process.env.DB_NAME,
-      synchronize: false,
+      synchronize: true,
       logging: true,
       entities: [__dirname + '/**/entities/*.entity.{js,ts}']
     }),
