@@ -76,7 +76,11 @@ export class BoardService {
     }
 
     async ViewAllBoard(): Promise<Board[]> {
-        return await this.boardRepository.find();
+        return await this.boardRepository.find({
+            relations: {
+                article: true
+            }
+        });
     }
 
     async ViewAllArticle(): Promise<Article[]> {

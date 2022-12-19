@@ -1,5 +1,6 @@
 import { User } from 'src/user/entities/user.entity';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn, Unique } from 'typeorm';
+import { Article } from './article.entity';
 
 @Entity({ name: 'board'})
 @Unique(['name'])
@@ -22,5 +23,8 @@ export class Board {
 
     @Column({ nullable: false, unsigned: true })
     userId: number;
+
+    @OneToMany(type => Article, article => article.board)
+    article: Article[]
 
 }

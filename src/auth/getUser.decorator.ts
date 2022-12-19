@@ -9,7 +9,7 @@ export const GetUser = createParamDecorator((data, ctx: ExecutionContext) => {
     }
     const token = req.headers['authorization'].split(' ')[1];
     try {
-        const payload = jwt.verify(token, 'secretToken');
+        const payload = jwt.verify(token, process.env.SECRET_KEY);
         return payload;
     } catch (err) {
         throw new UnauthorizedException();

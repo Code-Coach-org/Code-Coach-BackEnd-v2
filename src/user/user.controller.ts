@@ -2,8 +2,11 @@ import { Controller, Get, Post, Body, Patch, Param, Delete, Query, Res, Req, Use
 import { UsersService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import * as AWS from 'aws-sdk';
-import { UploadedFile } from '@nestjs/common/decorators';
+import { UploadedFile, UseGuards } from '@nestjs/common/decorators';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { GetUser } from 'src/auth/getUser.decorator';
+import { GetUserType } from 'src/auth/user.model';
+import { AuthGuard } from 'src/auth/auth.guard';
 
 @Controller('users')
 export class UsersController {
@@ -126,6 +129,17 @@ export class UsersController {
   @Get('findUser')
   async findOne(@Query('id') id: number) {
     const find = await this.usersService.findOne(id);
+    return Object.assign({
+      data: find,
+      statusCode: 200,
+      statusMessage: '데이터 조회에 성공했습니다.',
+    })
+  }
+
+  @Get()
+  @UseGuards(AuthGuard)
+  async GetMyProfile(@GetUser() user: GetUserType) {
+    const find = await this.usersService.findOne(user.id);
     return Object.assign({
       data: find,
       statusCode: 200,

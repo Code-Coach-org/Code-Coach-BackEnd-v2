@@ -84,7 +84,9 @@ export class UsersService {
           id: find.id,
           userName: find.userName,
           email: find.email,
-        }, 'secretToken')
+        }, 
+        process.env.SECRET_KEY , 
+        {expiresIn: '1h'});
         find.token = token
         await this.usersRepository.save(find);
         return token;
@@ -95,11 +97,40 @@ export class UsersService {
   }
 
   async findAll(): Promise<User[]> {
-    return this.usersRepository.find();
+    return this.usersRepository.find({
+      select: {
+        id: true,
+        userName: true,
+        email: true,
+        nickName: true,
+        profile: true,
+        point: true,
+        level: true,
+        createdAt: true,
+        updatedAt: true,
+        deletedAt: true
+      }
+    });
   }
 
   async findOne(id: number): Promise<User> {
-    const find = await this.usersRepository.findOneBy({id})
+    const find = await this.usersRepository.findOne({
+      select: {
+        id: true,
+        userName: true,
+        email: true,
+        nickName: true,
+        profile: true,
+        point: true,
+        level: true,
+        createdAt: true,
+        updatedAt: true,
+        deletedAt: true
+      },
+      where: {
+        id: id
+      }    
+    })
     if (!find) {
       throw new NotFoundException(`Can't find ${id}`)
     } else {
