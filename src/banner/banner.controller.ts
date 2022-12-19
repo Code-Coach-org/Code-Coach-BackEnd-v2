@@ -42,8 +42,18 @@ export class BannerController {
         }
     }
 
+    @Get()
+    async getBanner() {
+        const banners = await this.bannerService.GetBanner();
+        return Object.assign({
+            data: banners,
+            success: true,
+            statusMessage: '배너 이미지 조회 완료'
+        })
+    }
+
     @Delete('removeBanner')
-    async removeBanner(@Query('id') id:number) {
+    async removeBanner(@Query('id') id: number) {
         const rb = await this.bannerService.removeImage(id)
         if(rb === 'del') {
             return Object.assign({

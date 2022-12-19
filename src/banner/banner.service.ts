@@ -19,8 +19,12 @@ export class BannerService {
         return banner
     }
 
+    async GetBanner() {
+        return await this.bannerRepository.find();
+    }
+
     async removeImage(id: number) {
-        await this.bannerRepository.delete({id})
+        await this.bannerRepository.delete({ id })
         return 'del'
     }
 }
