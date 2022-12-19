@@ -1642,6 +1642,11 @@
     "semver" "^7.3.5"
     "tar" "^6.1.11"
 
+"@nestjs/class-transformer@^0.4.0":
+  "integrity" "sha512-aHKhqPVixFCo8m7n2iP1uGgfyF0eYlAgGJKfW27l0BvRCTPBjmoL4956Cf9xVu6WNJzVsp//SOcpIavdnNHYZg=="
+  "resolved" "https://registry.npmjs.org/@nestjs/class-transformer/-/class-transformer-0.4.0.tgz"
+  "version" "0.4.0"
+
 "@nestjs/cli@^8.0.0":
   "integrity" "sha512-y5Imcw1EY0OxD3POAM7SLUB1rFdn5FjbfSsyJrokjKmXY+i6KcBdbRrv3Ox7aeJ4W7wXuckIXZEUlK6lC52dnA=="
   "resolved" "https://registry.npmjs.org/@nestjs/cli/-/cli-8.2.8.tgz"

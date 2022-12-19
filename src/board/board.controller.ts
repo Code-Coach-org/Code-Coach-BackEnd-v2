@@ -31,11 +31,12 @@ export class BoardController {
     @Post('create/article')
     @UseInterceptors(FileInterceptor('file', multerDiskDestinationOutOptions))
     async createArticle(
+        @GetUser() user: GetUserType,
         @Body() createArticleDto: CreateArticleDto,
         @UploadedFile() file: Express.Multer.File
     ) {
         const uploadFileURL = this.boardService.uploadFileBoard(createArticleDto, file);
-        await this.boardService.CreateArticle(createArticleDto, uploadFileURL)
+        await this.boardService.CreateArticle(user, createArticleDto, uploadFileURL)
         return Object.assign({
             Message: "게시글이 생성되었습니다.",
             success: true

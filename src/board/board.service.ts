@@ -9,7 +9,7 @@ import { Board } from './entities/board.entity';
 import { uploadFileDiskDestination } from 'src/hooks/uploadFileDiskDestination';
 import { DeleteArticleByIdDto } from './dto/request/delete-article-by-id.dto';
 import { GetUserType } from 'src/auth/user.model';
-import { plainToClass } from 'class-transformer';
+import { plainToClass } from '@nestjs/class-transformer';
 
 @Injectable()
 export class BoardService {
@@ -23,7 +23,6 @@ export class BoardService {
             ...createBoardDto,
             userId: user.id
         })
-        console.log(board);
         await this.boardRepository.save(board);
     }
 
@@ -49,11 +48,17 @@ export class BoardService {
         return uploadFileDiskDestination(file, uploadFilePath);
     }
 
-    async CreateArticle(createArticleDto: CreateArticleDto, uploadFileURL: string): Promise<void> {
-        await this.articleRepository.save({
+    async CreateArticle(
+        user: GetUserType,
+        createArticleDto: CreateArticleDto, 
+        uploadFileURL: string
+    ): Promise<void> {
+        const article = plainToClass(Article, {
             ...createArticleDto,
-            image: uploadFileURL
-        });
+            image: uploadFileURL,
+            userId: user.id
+        })
+        await this.articleRepository.save(article);
     }
 
     async DeleteArticleById(deleteArticleByIdDto: DeleteArticleByIdDto) {
