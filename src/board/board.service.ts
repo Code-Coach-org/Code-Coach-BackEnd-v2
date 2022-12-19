@@ -32,6 +32,11 @@ export class BoardService {
 
     async ViewArticleById(viewArticleByIdDto: ViewArticleByIdDto) {
         const { articleId } = viewArticleByIdDto;
+        // 조회수 증가
+        await this.articleRepository.createQueryBuilder()
+            .update(Article)
+            .set({ view: () => "view + 1"})
+            .execute()
         return await this.articleRepository.findOne({
             relations: {
                 board: true,
@@ -68,6 +73,14 @@ export class BoardService {
             throw new NotFoundException("자신이 쓴 게시글이 아니거나 게시글을 찾을 수 없습니다.");
         }
         await this.articleRepository.delete({ id: articleId, userId: user.id });
+    }
+
+    async ViewAllBoard(): Promise<Board[]> {
+        return await this.boardRepository.find();
+    }
+
+    async ViewAllArticle(): Promise<Article[]> {
+        return await this.articleRepository.find();
     }
 
 }

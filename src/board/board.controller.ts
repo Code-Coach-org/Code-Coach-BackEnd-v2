@@ -10,6 +10,8 @@ import { CreateArticleDto } from './dto/request/create-article.dto';
 import { CreateBoardDto } from './dto/request/create-board.dto';
 import { DeleteArticleByIdDto } from './dto/request/delete-article-by-id.dto';
 import { ViewArticleByIdDto } from './dto/request/view-article-by-id.dto';
+import { Article } from './entities/article.entity';
+import { Board } from './entities/board.entity';
 
 @Controller('board')
 @UseGuards(AuthGuard)
@@ -26,6 +28,17 @@ export class BoardController {
             Message: "게시판이 생성되었습니다.",
             success: true
         })
+    }
+
+    
+    @Get('all')
+    async viewAllBoard(): Promise<Board[]> {
+        return this.boardService.ViewAllBoard();
+    }
+
+    @Get('article/all')
+    async viewAllArticle(): Promise<Article[]> {
+        return this.boardService.ViewAllArticle();
     }
 
     @Post('create/article')
