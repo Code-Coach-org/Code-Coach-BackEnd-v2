@@ -2,6 +2,7 @@ import { Body, Controller, Delete, Get, Param, UseGuards, Post, UploadedFile, Us
 import { FileInterceptor } from '@nestjs/platform-express';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { GetUser } from 'src/auth/getUser.decorator';
+import { GetUserType } from 'src/auth/user.model';
 import { multerDiskDestinationOutOptions } from 'src/config/multer.config';
 import { User } from 'src/user/entities/user.entity';
 import { BoardService } from './board.service';
@@ -11,18 +12,16 @@ import { DeleteArticleByIdDto } from './dto/request/delete-article-by-id.dto';
 import { ViewArticleByIdDto } from './dto/request/view-article-by-id.dto';
 
 @Controller('board')
+@UseGuards(AuthGuard)
 export class BoardController {
     constructor(private readonly boardService: BoardService) { }
 
-    @Get('jwttest')
-    @UseGuards(AuthGuard)
-    async jwtTest(@GetUser() user) {
-        console.log(user);
-    }
-
     @Post('create')
-    async createBoard(@Body() createBoardDto: CreateBoardDto): Promise<Object> {
-        await this.boardService.CreateBoard(createBoardDto);
+    async createBoard(
+        @GetUser() user: GetUserType,
+        @Body() createBoardDto: CreateBoardDto
+    ): Promise<Object> {
+        await this.boardService.CreateBoard(user, createBoardDto);
         return Object.assign({
             Message: "게시판이 생성되었습니다.",
             success: true

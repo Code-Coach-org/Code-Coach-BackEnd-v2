@@ -8,6 +8,8 @@ import { Article } from './entities/article.entity';
 import { Board } from './entities/board.entity';
 import { uploadFileDiskDestination } from 'src/hooks/uploadFileDiskDestination';
 import { DeleteArticleByIdDto } from './dto/request/delete-article-by-id.dto';
+import { GetUserType } from 'src/auth/user.model';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class BoardService {
@@ -16,8 +18,13 @@ export class BoardService {
         @InjectRepository(Article) private articleRepository: Repository<Article>
     ) { }
 
-    async CreateBoard(createBoardDto: CreateBoardDto): Promise<void> {
-        await this.boardRepository.save(createBoardDto);
+    async CreateBoard(user: GetUserType, createBoardDto: CreateBoardDto): Promise<void> {
+        const board = plainToClass(Board, {
+            ...createBoardDto,
+            userId: user.id
+        })
+        console.log(board);
+        await this.boardRepository.save(board);
     }
 
     async Validate(value: string): Promise<boolean> {

@@ -14,13 +14,14 @@ export function Unique(validationOptions?: ValidationOptions) {
 }
 
 
-@ValidatorConstraint({ name: 'name', async: true})
+@ValidatorConstraint({ name: 'name', async: true })
 @Injectable()
 export class CustomNameValidation implements ValidatorConstraintInterface {
     constructor(private readonly boardService: BoardService) {}
 
     async validate(value: string, args: ValidationArguments): Promise<boolean> {
         return this.boardService.Validate(value);
+        return false;
     }
 
     defaultMessage(args: ValidationArguments) {
