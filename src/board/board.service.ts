@@ -34,7 +34,8 @@ export class BoardService {
         const { articleId } = viewArticleByIdDto;
         return await this.articleRepository.findOne({
             relations: {
-                board: true
+                board: true,
+                comment: true
             },
             where: {
                 id: articleId
@@ -61,12 +62,12 @@ export class BoardService {
         await this.articleRepository.save(article);
     }
 
-    async DeleteArticleById(deleteArticleByIdDto: DeleteArticleByIdDto) {
+    async DeleteArticleById(user: GetUserType, deleteArticleByIdDto: DeleteArticleByIdDto) {
         const { articleId } = deleteArticleByIdDto;
-        if (!await this.articleRepository.countBy({ id: articleId })) {
-            throw new NotFoundException("게시글을 찾을 수 없습니다.");
+        if (!await this.articleRepository.countBy({ id: articleId, userId: user.id })) {
+            throw new NotFoundException("자신이 쓴 게시글이 아니거나 게시글을 찾을 수 없습니다.");
         }
-        await this.articleRepository.delete({ id: articleId });
+        await this.articleRepository.delete({ id: articleId, userId: user.id });
     }
 
 }

@@ -1,5 +1,6 @@
+import { Comment } from 'src/comment/entities/comment.entity';
 import { User } from 'src/user/entities/user.entity';
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
 import { Board } from './board.entity';
 
 @Entity({ name: 'article' })
@@ -42,6 +43,9 @@ export class Article {
 
     @Column({ nullable: false, unsigned: true })
     userId: number;
+
+    @OneToMany(type => Comment, comment => comment.article)
+    comment: Comment[];
 
     @ManyToOne(type => Board, board => board.boardId)
     @JoinColumn({ name: 'boardId' })

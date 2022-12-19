@@ -9,13 +9,12 @@ export class Comment {
     @PrimaryColumn({ unsigned: true })
     commentId!: number;
 
-    // TODO :: User 업데이트시 추가
-    // @ManyToOne(type => User, user => user.userId)
-    // @JoinColumn({ name: 'userId' })
-    // user!: User;
+    @ManyToOne(type => User, user => user.id)
+    @JoinColumn({ name: 'userId' })
+    user!: User;
 
-    // @Column({ nullable: false, unsigned: true })
-    // userId!: number;
+    @Column({ nullable: false, unsigned: true })
+    userId!: number;
 
     @ManyToOne(type => Article)
     @JoinColumn({ name: 'articleId' })
