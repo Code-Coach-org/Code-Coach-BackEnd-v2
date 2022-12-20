@@ -26,7 +26,8 @@ export class Article {
     @Column({
         type: 'varchar',
         length: 100,
-        comment: '배너 이미지'
+        comment: '배너 이미지',
+        default: null
     })
     image: string;
 
